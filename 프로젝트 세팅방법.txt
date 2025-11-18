@@ -1,0 +1,19 @@
+# 팀장
+
+1. Unity 프로젝트 생성
+2. 로컬 Git 저장소 초기화
+3. .gitignore, Git Lfs 설정 후 커밋
+4. 원격 GitHub 저장소 생성 후 연결
+
+# 팀원
+
+1. Git Lfs 설정
+2. 원격 GitHub 저장소 클론
+
+# GitHub 업로드
+
+- Assets/
+- Packages/
+- ProjectSettings/
+
+이외 파일은 업로드할 필요 없음

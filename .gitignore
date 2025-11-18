@@ -97,3 +97,9 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# GP Team1 에서 추가한 ignore --------------------------------------------------------------
+
+# Visual Studio config
+*.vsconfig
+

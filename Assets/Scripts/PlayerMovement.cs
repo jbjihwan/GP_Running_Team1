@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f, 
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
             transform.position + Vector3.up * 0.1f + Vector3.down * (0.1f + groundCheckLength));
     }
 }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ceb777261c417d846b9150951cdeec40
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 288965
+  packageName: Lowpoly Cowboy RIO
+  packageVersion: 1.1
+  assetPath: Assets/VertexModeler/CowboyRIO/Scene/CowboyRIO_Scene/GlobalVolumeProfile.asset
+  uploadId: 705475

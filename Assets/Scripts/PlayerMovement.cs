@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public float smoothTime;
     public float jumpForce;
     public float slideTime;
+    public float groundCheckLength;
+    public float groundCheckTime;
     public int minLane;
     public int maxLane;
     public int laneInterval;
@@ -18,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocityRef;
     private float targetPosX;
     private float colliderHeight;
+    private float lastGroundCheckTime;
     private int lane;
     private int jumpCount;
     private bool isSliding;
@@ -27,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
         velocityRef = Vector3.zero;
         targetPosX = 0f;
         colliderHeight = playerCollider.height;
+        lastGroundCheckTime = Time.time - groundCheckTime;
         lane = 0;
         jumpCount = 0;
         isSliding = false;
@@ -41,8 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
     void GroundCheck()
     {
-        if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 0.2f))
+        if (Time.time > lastGroundCheckTime + groundCheckTime &&
+            Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 0.1f + groundCheckLength))
         {
+            lastGroundCheckTime = Time.time;
             jumpCount = 0;
         }
     }
@@ -104,5 +110,13 @@ public class PlayerMovement : MonoBehaviour
     {
         float newX = Mathf.SmoothDamp(transform.position.x, targetPosX, ref velocityRef.x, smoothTime);
         transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f, 
+            transform.position + Vector3.up * 0.1f + Vector3.down * (0.1f + groundCheckLength));
     }
 }

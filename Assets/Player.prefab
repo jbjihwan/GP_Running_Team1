@@ -2556,6 +2556,8 @@ MonoBehaviour:
   smoothTime: 0.5
   jumpForce: 5
   slideTime: 1.5
+  groundCheckLength: 0.1
+  groundCheckTime: 0.1
   minLane: -1
   maxLane: 1
   laneInterval: 2

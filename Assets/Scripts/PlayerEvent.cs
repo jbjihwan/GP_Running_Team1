@@ -2,18 +2,19 @@ using UnityEngine;
 
 /// <summary>
 /// [PlayerEvent]
-/// - 플레이어 HP와 데미지 처리를 전부 담당하는 스크립트.
-/// - 함정 맞음, 곱셈 문제 틀림 같은 이벤트는 전부 여기 함수만 호출하면 됨.
+/// - Handles all player HP and damage-related events.
+/// - Any damage source (traps, wrong answer, etc.) should call these functions.
 /// </summary>
 public class PlayerEvent : MonoBehaviour
 {
-    [Header("HP 설정")]
-    [Tooltip("플레이어 최대 HP")]
+    [Header("HP Settings")]
+    [Tooltip("Player maximum HP")]
     public int maxHP = 5;
 
-    [Tooltip("현재 HP (시작 시 maxHP로 초기화)")]
+    [Tooltip("Current HP (initialized to maxHP on start)")]
     public int currentHP;
 
+    // Flag to indicate whether the player is dead
     public bool isDead { get; private set; } = false;
 
     private void Awake()
@@ -22,59 +23,60 @@ public class PlayerEvent : MonoBehaviour
     }
 
     /// <summary>
-    /// 공통 데미지 처리 함수
+    /// General damage processing method.
     /// </summary>
     public void TakeDamage(int damage)
     {
         if (isDead) return;
 
-        int finalDamage = Mathf.Max(1, damage); // 최소 1이상
+        int finalDamage = Mathf.Max(1, damage); // minimum 1 damage
 
         currentHP -= finalDamage;
-        Debug.Log($"[PlayerEvent] 데미지 {finalDamage} 입음 → 현재 HP: {currentHP}");
+        Debug.Log($"[PlayerEvent] Took {finalDamage} damage → Current HP: {currentHP}");
 
+        // If HP falls to 0 or below, trigger death
         if (currentHP <= 0)
         {
             currentHP = 0;
             Die();
         }
 
-        // TODO: HP바 UI 연결하고 싶으면 여기서 슬라이더 업데이트
+        // TODO: Update HP bar UI here (Slider or TMP)
     }
 
     /// <summary>
-    /// 함정에 맞았을 때 호출
+    /// Called when hit by a trap.
     /// </summary>
     public void OnTrapHit(int baseDamage)
     {
-        Debug.Log("[PlayerEvent] 함정 피격!");
+        Debug.Log("[PlayerEvent] Hit by trap!");
         TakeDamage(baseDamage);
 
-        // TODO: 함정 피격 SFX, 화면 흔들기 등
-        // if (SoundManager.instance != null) SoundManager.instance.PlaySfx(함정Sfx인덱스);
+        // TODO: Play trap hit SFX, camera shake, effects, etc.
+        // if (SoundManager.instance != null) SoundManager.instance.PlaySfx(trapSfxIndex);
     }
 
     /// <summary>
-    /// 곱셈 문제를 틀렸을 때 호출
+    /// Called when the player answers a multiplication question incorrectly.
     /// </summary>
     public void OnWrongAnswer(int baseDamage)
     {
-        Debug.Log("[PlayerEvent] 곱셈 문제 오답!");
+        Debug.Log("[PlayerEvent] Wrong answer!");
         TakeDamage(baseDamage);
 
-        // TODO: 오답 SFX, 경고 UI 등
-        // if (SoundManager.instance != null) SoundManager.instance.PlaySfx(오답Sfx인덱스);
+        // TODO: Play wrong-answer SFX, flash red UI, warning effects 
+        // if (SoundManager.instance != null) SoundManager.instance.PlaySfx(wrongAnswerSfxIndex);
     }
 
     /// <summary>
-    /// HP 0일 때 처리
+    /// Handles player death when HP reaches zero.
     /// </summary>
     private void Die()
     {
         isDead = true;
-        Debug.Log("[PlayerEvent] 플레이어 사망!");
+        Debug.Log("[PlayerEvent] Player died!");
 
-        // TODO: 사망 애니메이션, 게임오버 UI, 입력 막기 등
+        // TODO: death animation, disable input, show game over UI, etc.
         // GameManager.instance.GameOver();
     }
 }

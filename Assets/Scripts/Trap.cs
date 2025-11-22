@@ -2,34 +2,36 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    [Header("이동 속도")]
+    [Header("Movement Speed")]
     public float speed = 2f;
 
-    [Header("대미지 설정")]
+    [Header("Damage Settings")]
     public int contactDamage = 1;
 
     private void Update()
     {
-        // 트랩 앞으로 이동
+        // Move the trap forward (relative to its facing direction)
         transform.position -= transform.forward * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Only interact with the Player
         if (!other.CompareTag("Player"))
             return;
 
-        // PlayerEvent 찾기
+        // Try to get PlayerEvent component
         PlayerEvent playerEvent = other.GetComponent<PlayerEvent>();
         if (playerEvent == null)
             playerEvent = other.GetComponentInParent<PlayerEvent>();
 
+        // Apply damage if PlayerEvent exists
         if (playerEvent != null)
         {
             playerEvent.OnTrapHit(contactDamage);
         }
 
-        // 트랩은 한 번 부딪히면 사라짐
+        // Destroy the trap after contact
         Destroy(gameObject);
     }
 }
